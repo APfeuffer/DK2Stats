@@ -46,7 +46,7 @@ Usage example:
     from simulate import *
     data = Data("C:/Games/DoorKickers2/data")
     M4_Mk318_Holo = Weapon(data,"M4 Carbine",ammo="556FMJMk318_M4",scope="Holosight")
-    M4_Mk318_Holo.one_burst(20,armor=(4,40))
+    one_burst(M4_Mk318_Holo,20,armor=(4,40))
 
 ## stats.py
 This module contains a few helper functions to tabulate weapon stats and write them to a CSV file that can be imported into most spreadsheet programs. Calling it from the command line with the path to the game's data directory will create tables of most relevant distance-dependant stats for all weapons in the game. Be aware thet the later ones in the list require a lot of calculations that can take a rather long time for some weapons (especially the RPKs). You can comment them out or filter the weapons used to save some time.
