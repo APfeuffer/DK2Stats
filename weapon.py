@@ -62,10 +62,14 @@ class Weapon: # Parse all stats of the given Weapon/Ammo/Scope combination
             self.warnings += ["Scope type '%s' does not exist, using '%s' instead."%(scope,first_scope)]
         
         # Find raw attack types
-        attacks = [at for at in list(self.weapon_raw.AttackTypes) if at.name]
-        self.attacks_raw = sorted([(float(at["rangeMeters"]),data["firearm_attacktypes"].FirearmAttackTypes.find("AttackType",{"name":at["name"]})) for at in attacks])
-        if inCover:
-            self.attacks_raw = sorted([(float(at["rangeMeters"]),data["firearm_attacktypes"].FirearmAttackTypes.find("AttackType",{"name":at["inCoverOverride"] if at.has_attr("inCoverOverride") else at["name"]})) for at in attacks])
+        try:
+            attacks = [at for at in list(self.weapon_raw.AttackTypes) if at.name]
+            self.attacks_raw = sorted([(float(at["rangeMeters"]),data["firearm_attacktypes"].FirearmAttackTypes.find("AttackType",{"name":at["name"]})) for at in attacks])
+            if inCover:
+                self.attacks_raw = sorted([(float(at["rangeMeters"]),data["firearm_attacktypes"].FirearmAttackTypes.find("AttackType",{"name":at["inCoverOverride"] if at.has_attr("inCoverOverride") else at["name"]})) for at in attacks])
+        except:
+            attacks = []
+            self.errors += ["Weapon '%s' has not attack types!"%weapon]
             
     def weapon_name(self):
         return self.weapon_raw["name"]

@@ -29,7 +29,7 @@ def match_weapons(data, sides=None, slots=None, classes=None, weapons=None, ammo
                     weaponlist.append(Weapon(data,wname,aname,None,False))
                     weaponlist.append(Weapon(data,wname,aname,None,True))
                 else: weaponlist.append(Weapon(data,wname,aname,None,bool(in_cover)))
-    return weaponlist
+    return [weapon for weapon in weaponlist if weapon.valid]
 
 def all_cutoffs(weapons):
     cuts = set()
@@ -82,9 +82,12 @@ if __name__=="__main__":
         ("burst_kill_chance.csv", lambda w,x: one_burst(w,x).kill_chance()),
         ("burst_time.csv", lambda w,x: one_burst(w,x).expected()[0]),
         ("burst_damage.csv", lambda w,x: one_burst(w,x).expected()[1]),
-        ("damage_per_second.csv", lambda w,x: one_mag(w,x).dps()),
-        ("kill_time_50_percent.csv", lambda w,x: one_mag(w,x).kill_time(0.5)),
-        ("kill_time_95_percent.csv", lambda w,x: one_mag(w,x).kill_time(0.95))
+        ("damage_per_second.csv", lambda w,x: one_burst(w,x).dps()),
+        ("kill_time_50_percent.csv", lambda w,x: one_burst(w,x).kill_time(0.5)),
+        ("kill_time_95_percent.csv", lambda w,x: one_burst(w,x).kill_time(0.95)),
+        ("damage_per_second_with_reload.csv", lambda w,x: one_mag(w,x).dps()),
+        ("kill_time_50_percent_with_reload.csv", lambda w,x: one_mag(w,x).kill_time(0.5)),
+        ("kill_time_95_percent_with_reload.csv", lambda w,x: one_mag(w,x).kill_time(0.95))
         ]
     for filename, yfunc in tasks:
         print("Next table:",outdir+filename)
