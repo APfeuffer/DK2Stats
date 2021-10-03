@@ -23,9 +23,10 @@ class Weapon: # Parse all stats of the given Weapon/Ammo/Scope combination
         if weapon in dataset.list_weapons( False, True, True, True):
             self.enemy = True
             self.weapon_raw = data["firearms_enemy"].Equipment.find("Firearm",{"name":weapon})
-        elif weapon in dataset.list_weapons( True, False, True, False): self.weapon_raw = data["firearms_rifles"].Equipment.find("Firearm",{"name":weapon})
-        elif weapon in dataset.list_weapons( True, False, False, True): self.weapon_raw = data["firearms_pistols"].Equipment.find("Firearm",{"name":weapon})
-        else: self.errors += ["Weapon '%s' not found!"%weapon]
+        else: self.weapon_raw = dataset.find_weapon_entry(weapon)
+        if not self.weapon_raw:
+            self.errors += ["Weapon '%s' not found!"%weapon]
+            return
             
         # Find raw ammo data
         if ammo is None: # None given, simply take the first

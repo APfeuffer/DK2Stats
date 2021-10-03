@@ -20,8 +20,8 @@ class Data:
 
     def list_weapons(self, player=True, enemy=False, primary=True, secondary=False):
         ws = []
-        if player and primary: ws+=self.item_names(obj="Firearm", slot="PrimaryWeapon", files=["firearms_rifles"])
-        if player and secondary: ws+=self.item_names(obj="Firearm", slot="SecondaryWeapon", files=["firearms_pistols"])
+        if player and primary: ws+=self.item_names(obj="Firearm", slot="PrimaryWeapon", files=["firearms_rifles","firearms_cia"])
+        if player and secondary: ws+=self.item_names(obj="Firearm", slot="SecondaryWeapon", files=["firearms_pistols","firearms_pistols_cia"])
         if enemy and primary: ws+=self.item_names(obj="Firearm", slot="PrimaryWeapon", files=["firearms_enemy"])
         if enemy and secondary: ws+=self.item_names(obj="Firearm", slot="SecondaryWeapon", files=["firearms_enemy"])
         return ws
@@ -38,8 +38,8 @@ class Data:
 
     def find_weapon_entry(self, weapon):
         if weapon in self.list_weapons(False, True, True, True): return self.raw["firearms_enemy"].Equipment.find("Firearm",{"name":weapon})
-        elif weapon in self.list_weapons(True, False, True, False): return self.raw["firearms_rifles"].Equipment.find("Firearm",{"name":weapon})
-        elif weapon in self.list_weapons(True, False, False, True): return self.raw["firearms_pistols"].Equipment.find("Firearm",{"name":weapon})
+        elif weapon in self.list_weapons(True, False, True, False): return self.raw["firearms_rifles"].Equipment.find("Firearm",{"name":weapon}) or self.raw["firearms_cia"].Equipment.find("Firearm",{"name":weapon})
+        elif weapon in self.list_weapons(True, False, False, True): return self.raw["firearms_pistols"].Equipment.find("Firearm",{"name":weapon}) or self.raw["firearms_pistols_cia"].Equipment.find("Firearm",{"name":weapon})
 
     def list_scopes_for(self, weapon):
         return [s["name"] for s in self.find_weapon_entry(weapon).find_all("Scope")]
