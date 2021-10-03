@@ -2,7 +2,8 @@ from simulate import *
 
 all_sides = ["Player", "Enemy"]
 all_slots = ["Primary", "Secondary"]
-player_classes = ["Assault", "Support", "Marksman", "Medic", "Grenadier"]
+ranger_classes = ["Assault", "Support", "Marksman", "Medic", "Grenadier"]
+cia_classes = ["Undercover", "BlackOps"]
 
 def match_weapons(data, sides=None, slots=None, classes=None, weapons=None, ammo=None, scopes=None, in_cover=None): # None matches any
     weaponlist = []
